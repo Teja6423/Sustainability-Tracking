@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SustainabilityTracking</title>
+    <link rel="stylesheet" href="/Calculator/style.css" />
+    <link rel="stylesheet" type="text/css" href="/Calculator/style2.css">
+    <script src="https://kit.fontawesome.com/a076d05399.js"></script>
+    <style>
+        .hidden {
+            display: none;
+        }
+    </style>
+  </head>
+  <body>
+    <nav>
+      <div class="menu">
+        <div class="logo">
+          <a href="#">SustainabilityTracking</a>
+        </div>
+        <ul>
+          <li><a href="home.html">Home</a></li>
+          <li><a href="/Login/Log.html">Login</a></li>
+          <li><a href="#">Calculator</a></li>
+          <li><a href="#">Contact</a></li>
+          <li><a href="#">Feedback</a></li>
+        </ul>
+      </div>
+    </nav>
+    <img src="https://images.pexels.com/photos/2646237/pexels-photo-2646237.jpeg" alt="" height="device-width" width="device-width">
+    <div class="center">
+      <form id="carbonFootprintForm">
+        <div id="question1">
+            <label for="car">Do you have a car? (yes/no): </label>
+            <input type="text" id="carInput" required>
+            <br>
+            <button type="button" id="nextQuestion1">Next</button>
+        </div>
+
+        <div id="question2" class="hidden">
+            <label for="carKm">Enter the number of kilometers you drive per month with a car: </label>
+            <input type="text" id="carKmInput" required>
+            <br>
+            <button type="button" id="nextQuestion2">Next</button>
+        </div>
+
+        <div id="question3" class="hidden">
+            <label for="bus">Do you use Public Transportation? (yes/no): </label>
+            <input type="text" id="busInput" required>
+            <br>
+            <button type="button" id="nextQuestion3">Next</button>
+        </div>
+
+        <div id="question4" class="hidden">
+            <label for="busKm">Enter the number of kilometers you use Public Transportation per month: </label>
+            <input type="text" id="busKmInput" required>
+            <br>
+            <button type="button" id="nextQuestion4">Next</button>
+        </div>
+
+        <div id="question5" class="hidden">
+            <label for="bike">Do you have a bike? (yes/no): </label>
+            <input type="text" id="bikeInput" required>
+            <br>
+            <button type="button" id="nextQuestion5">Next</button>
+        </div>
+
+        <div id="question6" class=" hidden">
+            <label for="bikeKm">Enter the number of kilometers you ride a bike per month: </label>
+            <input type="text" id="bikeKmInput" required>
+            <br>
+            <button type="button" id="nextQuestion6">Next</button>
+        </div>
+
+        <div id="question7" class="hidden">
+            <label for="electricBill">Enter your monthly electricity bill (INR): </label>
+            <input type="number" id="electricBillInput" required>
+            <br>
+            <button type="button" id="nextQuestion7">Next</button>
+        </div>
+
+        <div id="question8" class="hidden">
+            <label for="gasBill">Enter your monthly natural gas bill (INR): </label>
+            <input type="number" id="gasBillInput" required>
+            <br>
+            <button type="button" id="nextQuestion8">Next</button>
+        </div>
+
+        <div id="question9" class="hidden">
+            <label for="oilBill">Enter your monthly oil bill (INR): </label>
+            <input type="number" id="oilBillInput" required>
+            <br>
+            <button type="button" id="nextQuestion9">Next</button>
+        </div>
+
+
+
+        <div id="question11" class="hidden">
+            <label for="recycleNewspaper">Do you recycle newspaper (0 for no, 1 for yes): </label>
+            <input type="number" id="recycleNewspaperInput" required>
+            <br>
+            <button type="button" id="nextQuestion11">Next</button>
+        </div>
+
+        <div id="question12" class="hidden">
+            <label for="recycleAluminumTin">Do you recycle aluminum and tin (0 for no, 1 for yes): </label>
+            <input type="number" id="recycleAluminumTinInput" required>
+            <br>
+            <button type="button" id="calculateButton">Calculate</button>
+        </div>
+
+        <div id="result" class="hidden">
+            <!-- The results will be displayed here -->
+        </div>
+    </form>
+
+    <script src="/Calculator/script.js"></script>
+    <script>
+        const questions = document.querySelectorAll('[id^="question"]');
+        let currentQuestion = 0;
+    
+        function navigateToNextQuestion() {
+            const currentQuestionElement = questions[currentQuestion];
+            const inputField = currentQuestionElement.querySelector("input");
+            const inputValue = inputField ? inputField.value.trim().toLowerCase() : "";
+    
+            if (currentQuestion < questions.length) {
+                if (currentQuestion === 0 || currentQuestion === 2 || currentQuestion === 4) {
+                    if (inputValue === "no") {
+                        currentQuestion += 2; // Increment by 2 for "no" answers in 1st, 3rd, and 5th questions
+                    } else {
+                        currentQuestion++;
+                    }
+                } else {
+                    currentQuestion++;
+                }
+    
+                currentQuestionElement.classList.add("hidden");
+    
+                if (currentQuestion < questions.length) {
+                    questions[currentQuestion].classList.remove("hidden");
+                    const nextInputField = questions[currentQuestion].querySelector("input");
+                    if (nextInputField) {
+                        nextInputField.focus();
+                    }
+                } else {
+                    const result = document.getElementById("result");
+                    result.classList.remove("hidden");
+                    calculateCarbonFootprint(); // Call the function to calculate and display the result
+                }
+            }
+        }
+    
+        function handleKeyPress(event) {
+            if (event.key === "Enter") {
+                event.preventDefault();
+                navigateToNextQuestion();
+            }
+        }
+    
+        const buttons = document.querySelectorAll('[type="button"]');
+        buttons.forEach((button) => {
+            button.addEventListener("click", navigateToNextQuestion);
+        });
+    
+        document.addEventListener("keydown", handleKeyPress);
+    </script>
+
+  </body>
+</html>

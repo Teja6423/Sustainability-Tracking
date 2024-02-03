@@ -1,0 +1,107 @@
+
+
+<!DOCTYPE html>
+<!-- Website - www.codingnepalweb.com -->
+
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Simple Website Design HTML CSS | CodingNepal</title>
+    <link rel="stylesheet" href="style.css" />
+    <script src="https://kit.fontawesome.com/a076d05399.js"></script>
+  </head>
+  <body>
+    <nav>
+      <div class="menu">
+        <div class="logo">
+          <a href="#">CodingLab</a>
+        </div>
+        <ul>
+          <li><a href="/home.html">Home</a></li>
+          <li><a href="#">Login</a></li>
+          <li><a href="#">Calculator</a></li>
+          <li><a href="#">Contact</a></li>
+          <li><a href="#">Feedback</a></li>
+        </ul>
+      </div>
+    </nav>
+    <img src="https://images.pexels.com/photos/2646237/pexels-photo-2646237.jpeg" alt="" height="device-width" width="device-width">
+    
+    <div class="center">
+      <div class="container">
+        <input type="checkbox" id="check">
+        <div class="login form">
+          <header>Login</header>
+          <form action="#" id="mainForm">
+            <input type="text" placeholder="Enter your Email" id="emailInp">
+            <input type="password" placeholder="Enter your Password" id="passwordInp">
+            <a href="#">Forgot password?</a>
+            <input type="submit" class="button" value="Login" id="login">
+          </form>
+          <div class="signup">
+            <span class="signup">Don't have an account?
+             <label for="check"><a href="/Login/Reg.html">Signup</a></label>
+            </span>
+          </div>
+        </div>
+
+      </div>
+      </div>
+    </div>
+    <script type="module">
+
+      import { initializeApp } from "https://www.gstatic.com/firebasejs/10.5.2/firebase-app.js";
+      import { getDatabase , get , ref , child } from "https://www.gstatic.com/firebasejs/10.5.2/firebase-database.js";
+      import { getAuth , signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.5.2/firebase-auth.js";
+
+      const firebaseConfig = {
+        apiKey: "AIzaSyCjricOQBioJulIgK-zCmTQjA_IChVKNrs",
+        authDomain: "sustainability-tracker-54487.firebaseapp.com",
+        projectId: "sustainability-tracker-54487",
+        storageBucket: "sustainability-tracker-54487.appspot.com",
+        messagingSenderId: "47207292021",
+        appId: "1:47207292021:web:306ca15f60f7bc52a4ac3c"
+      };
+    
+      const app = initializeApp(firebaseConfig);
+      const db = getDatabase();
+      const auth = getAuth(app);
+      const dbref = ref(db);
+
+      let EmailInp = document.getElementById('emailInp')
+      let PasswordInp = document.getElementById('passwordInp')
+      let MainForm = document.getElementById('mainForm')
+      let SignInUser = evt => {
+        evt.preventDefault();
+
+        signInWithEmailAndPassword(auth,emailInp.value,passwordInp.value)
+        .then(credentials => {
+
+          get(child(dbref , 'UserAuthList/' + credentials.user.uid)).then((snapshot)=>{
+            if(snapshot.exists){
+              sessionStorage.setItem("user-info", JSON.stringify({
+                username : snapshot.val().username
+              }))
+              sessionStorage.setItem("user-creds" , JSON.stringify(credentials.user));
+              window.location.href = '/home.html';
+            }
+          })
+
+        })
+        .catch((error) => {
+
+          alert(error.message);
+          console.log(error.code);
+          console.log(error.message);
+
+        })
+      }
+
+      MainForm.addEventListener('submit' , SignInUser)
+
+    </script>
+
+    
+  </body>
+</html>

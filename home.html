@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SustainabilityTracking</title>
+    <link rel="stylesheet" href="style.css" />
+    <script src="https://kit.fontawesome.com/a076d05399.js"></script>
+  </head>
+  <body>
+    <nav>
+      <div class="menu">
+        <div class="logo">
+          <a href="#">SustainabilityTracking</a>
+        </div>
+        <ul>
+          <li><a href="home.html">Home</a></li>
+          <li><a href="/Login/Log.html">Login</a></li>
+          <li><a href="/Calculator/calculator.html">Calculator</a></li>
+          <li><a href="#">Contact</a></li>
+          <li><a href="#">Feedback</a></li>
+        </ul>
+      </div>
+    </nav>
+    <img src="https://images.pexels.com/photos/2646237/pexels-photo-2646237.jpeg" alt="" height="device-width" width="device-width">
+    <div class="center">
+      <div class="title">Welcome</div>
+      <div class="sub_title">Track your Carbon Footprint</div>
+      <div class="btns">
+        <a href="/Calculator/calculator.html"><button>Calculate Now</button></a>
+        <a href="/Login/Log.html">
+        <button>Login</button>
+        </a>
+      </div>
+    </div>
+
+    <h2 id="msg"></h2>
+    <h2 id="greet"></h2>
+
+    <script>
+      let UserCred = JSON.parse(sessionStorage.getItem("user-cred"));
+      let UserInfo = JSON.parse(sessionStorage.getItem("user-info"));
+
+      let MsgHead = document.getElementById('msg');
+      let GreetHead = document.getElementById('greet');
+      let SignoutBtn = document.getElementById('signoutbutton');
+
+      MsgHead.innerHTML = 'user with email "${UserCred.email}" logged in';
+      GreetHead.innerHTML = 'welcome ${UserInfo.username}!';
+
+      let signout = ()=>{
+        sessionStorage.removeItem("user-cred");
+        sessionStorage.removeItem("user-info");
+        window.location.href = '/Login/Log.html'
+      }
+
+      let CheckCred = ()=>{
+        if(sessionStorage.getItem("user-cred"))
+            window.location.href = '/Login/Log.html'
+
+        else{
+          MsgHead.innerHTML = `User with email "${UserCred.email}" logged in`;
+          GreetHead.innerHTML = `Welcome ${UserInfo.username}!`;
+
+      }
+      }
+
+      window.addEventListener('load', CheckCred);
+      SignoutBtn.addEventListener('click', signout);
+    </script>
+  </body>
+</html>

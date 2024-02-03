@@ -1,0 +1,102 @@
+
+
+<!DOCTYPE html>
+<!-- Website - www.codingnepalweb.com -->
+
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SustainabilityTracking</title>
+    <link rel="stylesheet" href="style.css" />
+    <script src="https://kit.fontawesome.com/a076d05399.js"></script>
+  </head>
+  <body>
+    <nav>
+      <div class="menu">
+        <div class="logo">
+          <a href="#">SustainabilityTracking</a>
+        </div>
+        <ul>
+          <li><a href="/home.html">Home</a></li>
+          <li><a href="#">Login</a></li>
+          <li><a href="#">Calculator</a></li>
+          <li><a href="#">Contact</a></li>
+          <li><a href="#">Feedback</a></li>
+        </ul>
+      </div>
+    </nav>
+    <img src="https://images.pexels.com/photos/2646237/pexels-photo-2646237.jpeg" alt="" height="device-width" width="device-width">
+    
+    <div class="center">
+      <div class="container">
+        <input type="checkbox" id="check">
+        <div class="login form">
+          <header>Signup</header>
+          <form id="mainForm" action="#">
+            <input type="text" placeholder="Enter your Username " id="UsernameInp">
+            <input type="text" placeholder="Enter your Email " id="emailInp">
+            <input type="password" placeholder="Conform your password" id="passwordInp">
+            <input type="submit" class="button" value="Signup" id="signup">
+          </form>
+          <div class="signup">
+            <span class="signup">Already have an account?
+             <label for="check"><a href="/Login/Log.html">Login</a></label>
+            </span>
+          </div>
+        </div>
+        </div>
+      </div>
+      </div>
+    </div>
+    <script type="module">
+
+      import { initializeApp } from "https://www.gstatic.com/firebasejs/10.5.2/firebase-app.js";
+      import { getDatabase , set , ref } from "https://www.gstatic.com/firebasejs/10.5.2/firebase-database.js";
+      import { getAuth , createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.5.2/firebase-auth.js";
+
+      const firebaseConfig = {
+        apiKey: "AIzaSyCjricOQBioJulIgK-zCmTQjA_IChVKNrs",
+        authDomain: "sustainability-tracker-54487.firebaseapp.com",
+        projectId: "sustainability-tracker-54487",
+        storageBucket: "sustainability-tracker-54487.appspot.com",
+        messagingSenderId: "47207292021",
+        appId: "1:47207292021:web:306ca15f60f7bc52a4ac3c"
+      };
+    
+      const app = initializeApp(firebaseConfig);
+      const db = getDatabase();
+      const auth = getAuth(app);
+
+      let UsernameInp = document.getElementById('usernameInp')
+      let EmailInp = document.getElementById('emailInp')
+      let PasswordInp = document.getElementById('passwordInp')
+      let MainForm = document.getElementById('mainForm')
+      let RegisterUser = evt => {
+        evt.preventDefault();
+
+        createUserWithEmailAndPassword(auth,emailInp.value,passwordInp.value)
+        .then(credentials => {
+
+          set(ref(db , 'UserAuthList/' + credentials.user.uid) , {
+            username : UsernameInp.value
+          })
+
+
+        })
+        .catch((error) => {
+
+          alert(error.message);
+          console.log(error.code);
+          console.log(error.message);
+
+        })
+      }
+
+      MainForm.addEventListener('submit' , RegisterUser)
+
+    </script>
+
+    
+  </body>
+</html>
