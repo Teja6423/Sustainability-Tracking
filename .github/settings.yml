@@ -1,0 +1,6 @@
+defaults:
+  - name: Home
+    scope:
+      path: ""
+    values:
+      permalink: /home.html
